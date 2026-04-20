@@ -1,24 +1,23 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addTimer } from "../features/timers/TimerSlice.js";
-import TimerCard from "./TimerCard.jsx";
+import { addTimer } from "../features/timers/TimerSlice";
+import TimerCard from "./TimerCard";
 
 function TimerBoard() {
-  const timers = useSelector((state) => state.timers);
+  const rawTimers = useSelector((state) => state.timers);
+  const timers = Array.isArray(rawTimers) ? rawTimers : [];
   const dispatch = useDispatch();
 
   const handleAddTimer = () => {
-    const label = prompt("Enter a timer label:")?.trim();
+    const label = prompt("Enter timer name:")?.trim();
     dispatch(addTimer(label || "New Timer"));
   };
 
   return (
-    <div style={{ padding: 20 }}>
+    <div className="timer-board">
       <h2>All Timers ⏱️</h2>
 
-      <button onClick={handleAddTimer}>
-        + Add Timer
-      </button>
+      <button onClick={handleAddTimer}>+ Add Timer</button>
 
       <div style={{ marginTop: 20 }}>
         {timers.map((timer) => (

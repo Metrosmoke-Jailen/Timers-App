@@ -3,55 +3,74 @@ import { useDispatch } from "react-redux";
 import {
   pauseTimer,
   resumeTimer,
-  resetTimer
+  resetTimer,
+  restartTimer,
+  renameTimer,
 } from "../features/timers/TimerSlice";
 import { formatTime } from "../utils/formatTime";
 
 const TimerCard = ({ timer }) => {
   const dispatch = useDispatch();
+
   const [displayTime, setDisplayTime] = useState(timer.elapsed);
+  const [isEditing, setIsEditing] = useState(false);
+  const [text, setText] = useState(timer.label);
 
   useEffect(() => {
     let interval;
 
     if (timer.isRunning) {
       interval = setInterval(() => {
-        const now = Date.now();
-        const liveElapsed =
-          timer.elapsed + (now - timer.startTime);
-
-        setDisplayTime(liveElapsed);
+        setDisplayTime(timer.elapsed + (Date.now() - timer.startTime));
       }, 1000);
     } else {
       setDisplayTime(timer.elapsed);
     }
 
     return () => clearInterval(interval);
-  }, [timer.isRunning, timer.startTime, timer.elapsed]);
+  }, [timer]);
 
   return (
-    <div style={{ border: "1px solid #ccc", padding: 10, marginBottom: 10 }}>
-      <h3>{timer.label}</h3>
+    <div className="timer-card">
 
-      <p title={`${displayTime}ms`}>
-        ⏱️ Elapsed Time: <strong>{formatTime(displayTime)}</strong>
-      </p>
+      {isEditing ? (
+        <input
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          onBlur={() => {
+            dispatch(renameTimer({ id: timer.id, label: text }));
+            setIsEditing(false);
+          }}
+        />
+      ) : (
+        <h3 onDoubleClick={() => setIsEditing(true)}>
+          {timer.label}
+        </h3>
+      )}
+
+      <p>⏱️ {formatTime(displayTime)}</p>
 
       <p>Status: {timer.isRunning ? "🟢 Running" : "⏸️ Paused"}</p>
 
-      {timer.isRunning ? (
-        <button onClick={() => dispatch(pauseTimer(timer.id))}>
-          Pause
-        </button>
-      ) : (
-        <button onClick={() => dispatch(resumeTimer(timer.id))}>
-          Resume
-        </button>
-      )}
+      <div>
+        {timer.isRunning ? (
+          <button onClick={() => dispatch(pauseTimer(timer.id))}>
+            Pause
+          </button>
+        ) : (
+          <button onClick={() => dispatch(resumeTimer(timer.id))}>
+            Resume
+          </button>
+        )}
 
-      <button onClick={() => dispatch(resetTimer(timer.id))}>
-        Reset
-      </button>
+        <button onClick={() => dispatch(resetTimer(timer.id))}>
+          Reset
+        </button>
+
+        <button onClick={() => dispatch(restartTimer(timer.id))}>
+          Restart
+        </button>
+      </div>
     </div>
   );
 };

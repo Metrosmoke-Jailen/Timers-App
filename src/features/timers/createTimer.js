@@ -1,11 +1,11 @@
-export function createTimer(label = "Untitled Timer") {
-  const now = Date.now();
-
+export function createTimer(label = "Untitled Timer", category = "General") {
   return {
-    id: now,
+    id: Date.now(),
     label,
-    startTime: now,
+    category,
+    startTime: Date.now(),
     elapsed: 0,
     isRunning: true,
+    countdownFrom: null,
   };
 }

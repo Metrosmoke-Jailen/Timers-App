@@ -1,72 +1,33 @@
-/* Global layout */
 body {
+  font-family: Arial;
+  background: #f0f2f5;
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #0f172a;
-  color: #e2e8f0;
-}
-
-/* Main container */
-.app {
-  max-width: 700px;
-  margin: 40px auto;
   padding: 20px;
-  background: #111827;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
-/* Title */
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #38bdf8;
+.timer-board {
+  max-width: 650px;
+  margin: auto;
 }
 
-/* Input area */
-input {
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  outline: none;
-  width: 70%;
-  margin-right: 10px;
+.timer-card {
+  background: white;
+  padding: 16px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* Buttons */
 button {
-  padding: 10px 14px;
   margin: 5px;
+  padding: 6px 10px;
   border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background: #2563eb;
+  background: #3498db;
   color: white;
-  transition: 0.2s ease;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
 button:hover {
-  background: #1d4ed8;
-  transform: translateY(-1px);
-}
-
-/* Timer card */
-.timer {
-  background: #1f2937;
-  padding: 15px;
-  margin-top: 12px;
-  border-radius: 10px;
-  border-left: 4px solid #38bdf8;
-}
-
-/* Timer name */
-.timer h3 {
-  margin: 0;
-}
-
-/* Timer text */
-.timer p {
-  font-size: 18px;
-  margin: 8px 0;
-  color: #93c5fd;
+  background: #2980b9;
 }

@@ -8,12 +8,12 @@ export const store = configureStore({
   reducer: {
     timers: timersReducer,
   },
-  preloadedState,
+  preloadedState: preloadedState
+    ? { timers: preloadedState }
+    : undefined,
 });
 
 store.subscribe(() => {
   const state = store.getState();
-  saveState({
-    timers: state.timers,
-  });
+  saveState(state.timers);
 });

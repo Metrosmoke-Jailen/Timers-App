@@ -1,5 +1,6 @@
 import React from "react";
-import TimerBoard from "./components/TimerBoard.jsx";
+import "./App.css";
+import TimerBoard from "./components/TimerBoard";
 
 function App() {
   return (
