@@ -1,34 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   pauseTimer,
   resumeTimer,
   resetTimer
-} from "../features/timers/TimerSlice.js";
+} from "../features/timers/TimerSlice";
 
 const TimerCard = ({ timer }) => {
   const dispatch = useDispatch();
+  const [displayTime, setDisplayTime] = useState(timer.elapsed);
 
-  const elapsedSeconds = Math.floor(timer.elapsed / 1000);
+  useEffect(() => {
+    let interval;
+
+    if (timer.isRunning) {
+      interval = setInterval(() => {
+        const now = Date.now();
+
+        const liveElapsed =
+          timer.elapsed + (now - timer.startTime);
+
+        setDisplayTime(liveElapsed);
+      }, 1000);
+    } else {
+      setDisplayTime(timer.elapsed);
+    }
+
+    return () => clearInterval(interval);
+  }, [timer.isRunning, timer.startTime, timer.elapsed]);
+
+  const elapsedSeconds = Math.floor(displayTime / 1000);
 
   return (
-    <div
-      style={{
-        border: "1px solid #ddd",
-        padding: 12,
-        marginBottom: 12,
-        borderRadius: 8
-      }}
-    >
+    <div style={{ border: "1px solid #ccc", padding: 10, marginBottom: 10 }}>
       <h3>{timer.label}</h3>
 
-      <p>
-        ⏱️ Elapsed: <strong>{elapsedSeconds}s</strong>
-      </p>
+      <p>⏱️ Elapsed Time: {elapsedSeconds}s</p>
 
-      <p>
-        Status: {timer.isRunning ? "🟢 Running" : "⏸️ Paused"}
-      </p>
+      <p>Status: {timer.isRunning ? "🟢 Running" : "⏸️ Paused"}</p>
 
       {timer.isRunning ? (
         <button onClick={() => dispatch(pauseTimer(timer.id))}>
@@ -40,10 +49,7 @@ const TimerCard = ({ timer }) => {
         </button>
       )}
 
-      <button
-        onClick={() => dispatch(resetTimer(timer.id))}
-        style={{ marginLeft: 8 }}
-      >
+      <button onClick={() => dispatch(resetTimer(timer.id))}>
         Reset
       </button>
     </div>
