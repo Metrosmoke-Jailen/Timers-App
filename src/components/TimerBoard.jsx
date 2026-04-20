@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addTimer } from "../features/timers/TimerSlice";
-import TimerCard from "./TimerCard";
+import { addTimer } from "../features/timers/TimerSlice.js";
+import TimerCard from "./TimerCard.jsx";
 
 function TimerBoard() {
   const timers = useSelector((state) => state.timers);

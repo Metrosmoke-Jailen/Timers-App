@@ -4,7 +4,7 @@ import {
   pauseTimer,
   resumeTimer,
   resetTimer
-} from "../features/timers/TimerSlice";
+} from "../features/timers/TimerSlice.js";
 
 const TimerCard = ({ timer }) => {
   const dispatch = useDispatch();
