@@ -5,6 +5,7 @@ import {
   resumeTimer,
   resetTimer
 } from "../features/timers/TimerSlice";
+import { formatTime } from "../utils/formatTime";
 
 const TimerCard = ({ timer }) => {
   const dispatch = useDispatch();
@@ -16,7 +17,6 @@ const TimerCard = ({ timer }) => {
     if (timer.isRunning) {
       interval = setInterval(() => {
         const now = Date.now();
-
         const liveElapsed =
           timer.elapsed + (now - timer.startTime);
 
@@ -29,13 +29,13 @@ const TimerCard = ({ timer }) => {
     return () => clearInterval(interval);
   }, [timer.isRunning, timer.startTime, timer.elapsed]);
 
-  const elapsedSeconds = Math.floor(displayTime / 1000);
-
   return (
     <div style={{ border: "1px solid #ccc", padding: 10, marginBottom: 10 }}>
       <h3>{timer.label}</h3>
 
-      <p>⏱️ Elapsed Time: {elapsedSeconds}s</p>
+      <p title={`${displayTime}ms`}>
+        ⏱️ Elapsed Time: <strong>{formatTime(displayTime)}</strong>
+      </p>
 
       <p>Status: {timer.isRunning ? "🟢 Running" : "⏸️ Paused"}</p>
 
